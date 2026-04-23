@@ -1,31 +1,21 @@
-RPT6000 — Advanced Table Lookups & Data Internalization
-
-Continues building upon the sales report, this time eliminating hard-coded values.
-
-A collaborative COBOL project by Aidan Dunbar
-
-Overview
-RPT6000 is an enterprise-grade COBOL reporting application that builds on earlier iterations of the sales report by replacing hard-coded data with dynamic table lookups and externalized record definitions. The program reads customer sales data, cross-references a secondary SALESREP file to resolve representative names at runtime, and produces a polished, multi-level summary report complete with financial metrics.
-
-What It Does
-FeatureDescriptionDynamic Table LookupsReads the SALESREP file into an internal table at startup; resolves rep names by ID during report generation - no hard-coded name lists.Multi-Level ReportingOutput sorted by branch, then by sales representative, with nested subtotals at each level for granular performance analysis.Financial MetricsComputes Year-To-Date (YTD) change amounts and percentages to track account growth or decline across periods.Overflow / N/A HandlingUses REDEFINES to display OVRFLW or N/A whenever a calculation overflows or a division-by-zero condition is detected.Professional FormattingManages report headers, branch totals, rep totals, and page breaks with standardized COBOL output conventions.
-
-New COBOL Concepts Introduced
-This version introduces several advanced, enterprise-level COBOL techniques not present in earlier iterations:
-Table Processing & Search
-Internal tables are defined with the OCCURS clause and an INDEXED BY phrase. The SEARCH verb performs efficient sequential lookup against the loaded SALESREP table, replacing what would otherwise be a hard-coded series of condition checks.
-Data Internalization via COPY Members
-External record layouts for CUSTMAST and SALESREP are pulled into the program using COPY statements. This promotes modularity - record definitions live in one authoritative place and can be reused across multiple programs without duplication.
-Packed-Decimal Storage (COMP-3)
-Numeric fields are declared as PACKED-DECIMAL (also written COMP-3). This mainframe-native storage format packs two decimal digits per byte, reducing storage footprint and improving arithmetic performance on IBM Z-series hardware.
-Proactive Error Handling
-
-INITIALIZE resets group items to clean starting values before each processing cycle, preventing stale data from corrupting totals.
-ON SIZE ERROR clauses guard all arithmetic statements; when a result would overflow its receiving field or a divisor is zero, control branches to safe fallback logic instead of abending.
-
-Evaluate TRUE Structures
-Nested IF chains are replaced with EVALUATE TRUE blocks, making multi-condition branching easier to read, maintain, and extend - a widely adopted pattern in modern COBOL shops.
-
+# RPT 6000 — Advanced Table Lookups & Data Internalization
+The **Report 6000** application adds sophisticated COBOL "bells and whistles" to create a polished, enterprise-grade reporting tool. This program utilizes advanced data structures and memory management to process customer sales data, performing dynamic table lookups to pair sales representative IDs with their names for a comprehensive final report.
+ 
+## What it does
+ 
+* **Dynamic Table Lookups:** Implements a secondary data file (`SALESREP`) that is read into an internal table, allowing the program to dynamically find and display rep names by their ID.
+* **Multi-Level Reporting:** Sorted by branch and representative, providing nested subtotals for a granular view of sales performance.
+* **Calculated Financial Metrics:** Automatically computes Year-To-Date (YTD) change amounts and percentages, tracking growth or decline across customer accounts.
+* **Robust Memory Redefinition:** Utilizes the `REDEFINES` clause to handle special cases, such as displaying "OVRFLW" or "N/A" when numeric calculations aren't possible.
+* **Professional Output Formatting:** Manages complex report headers, branch totals, and sales rep totals with standardized COBOL coding syntax.
+## New COBOL Concepts Implemented
+Compared to previous iterations, this version introduces advanced enterprise features:
+ 
+* **Table Processing & Search:** Implementation of internal tables using the `OCCURS` clause and optimized retrieval via the `SEARCH` verb and `INDEXED BY`.
+* **Data Internalization (COPY Members):** Use of `COPY` statements to pull in external record definitions for `CUSTMAST` and `SALESREP`, promoting modularity and code reusability.
+* **Advanced Data Types:** Implementation of `PACKED-DECIMAL` (`COMP-3`) for field definitions to optimize mainframe storage and computational performance.
+* **Proactive Error Handling:** Use of the `INITIALIZE` verb for group items and `ON SIZE ERROR` logic to manage numeric overflows and division-by-zero during calculations.
+* **Flexible Logic Control:** Transition to `EVALUATE TRUE` structures for more readable and robust program control compared to standard nested IF statements.
 Program Output
 Final Report
 The main report lists customers grouped by branch and sales representative, showing current-period sales, prior-year sales, YTD change amount, and YTD change percentage. Branch and rep subtotals print automatically at each control break.
