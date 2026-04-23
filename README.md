@@ -35,10 +35,15 @@ If a customer record references a rep ID not found in the SALESREP table, the pr
 File Inventory
 RPT6000/
 ├── RPT6000.cbl        # Main program source
+
 ├── CUSTMAST.cpy       # COPY member — customer master record layout
+
 ├── SALESREP.cpy       # COPY member — sales representative record layout
+
 ├── SALESREP.dat       # Sales representative data file (runtime input)
+
 ├── CUSTMAST.dat       # Customer master data file (runtime input)
+
 └── README.md
 
 How to Compile & Run
