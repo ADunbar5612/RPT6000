@@ -22,4 +22,5 @@ Compared to previous iterations, this version introduces advanced enterprise fea
 Below are the execution results of the RPT 6000 program, showing the formatted report with looked-up names and the validation of unknown representative IDs:
 
 ### 📄 Final Report
-![RPT6000 Output](assets/RPT6000output.png)
+
+<img width="1920" height="1032" alt="Screenshot 2026-04-23 161835" src="https://github.com/user-attachments/assets/7f2f862f-1186-49e4-8f00-dd1f4e200741" />
