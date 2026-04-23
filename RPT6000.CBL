@@ -1,11 +1,14 @@
       *****************************************************************
       * Title..........: RPT6000 - Future Value Calculator
       * Programmer.....: Aidan Dunbar
-      * Date...........: 4-7-26
+      * Date...........: 4-23-26
       * GitHub URL.....: https://github.com/ADunbar5612/RPT6000
       * Program Desc...: Generates a sales report for customers based
-      *                  on YTD and percent change from last year
+      *                  on YTD and percent change from last year based
+      * on values from CUSTMAST
       * File Desc......: Define the sole source code for application
+      * Jordan walker home run count while working on program : 5outof8
+      * Go Cards!
       *****************************************************************
        IDENTIFICATION DIVISION.
 
@@ -35,7 +38,7 @@
       *****************************************************************
       * The customer master record contains the following fields
       *****************************************************************
-     
+
 
        FD  INPUT-SALESREP
            RECORDING MODE IS F
@@ -84,14 +87,14 @@
 
 
       * Controls spacing on the report and when to print heading lines
-       01  PRINT-FIELDS.
+       01  PRINT-FIELDS       PACKED-DECIMAL.
            05  PAGE-COUNT      PIC S9(3)   VALUE ZERO.
            05  LINES-ON-PAGE   PIC S9(3)   VALUE +55.
            05  LINE-COUNT      PIC S9(3)   VALUE +99.
            05  SPACE-CONTROL   PIC S9.
 
       * Totals for the report
-       01  TOTAL-FIELDS.
+       01  TOTAL-FIELDS                PACKED-DECIMAL.
            05  SALESREP-TOTAL-THIS-YTD  PIC S9(6)V99   VALUE ZERO.
            05  SALESREP-TOTAL-LAST-YTD  PIC S9(6)V99   VALUE ZERO.
            05  BRANCH-TOTAL-THIS-YTD    PIC S9(6)V99   VALUE ZERO.
@@ -110,7 +113,7 @@
            05  FILLER          PIC X(9).
 
       * Calculated fields for YTD change amount and percent change
-       01  CALCULATED-FIELDS.
+       01  CALCULATED-FIELDS   PACKED-DECIMAL.
            05  CHANGE-AMOUNT   PIC S9(5)V99         VALUE ZERO.
            05  CHANGE-PERCENT  PIC S9(3)V9          VALUE ZERO.
 
@@ -142,19 +145,19 @@
 
        01 HEADING-LINE-3.
            05 FILLER PIC X(54) VALUE SPACES.
-           05 FILLER PIC X(19) VALUE "SALES SALES".
+           05 FILLER PIC X(19) VALUE "SALES         SALES".
            05 FILLER PIC X(8) VALUE SPACES.
-           05 FILLER PIC X(17) VALUE "CHANGE CHANGE".
+           05 FILLER PIC X(17) VALUE "CHANGE     CHANGE".
            05 FILLER PIC X(32) VALUE SPACE.
 
        01 HEADING-LINE-4.
-           05 FILLER PIC X(17) VALUE "BRANCH SALESREP".
+           05 FILLER PIC X(17) VALUE "BRANCH   SALESREP".
            05 FILLER PIC X(13) VALUE SPACES.
            05 FILLER PIC X(8) VALUE "CUSTOMER".
            05 FILLER PIC X(14) VALUE SPACES.
-           05 FILLER PIC X(22) VALUE "THIS YTD LAST YTD".
+           05 FILLER PIC X(22) VALUE "THIS YTD      LAST YTD".
            05 FILLER PIC X(7) VALUE SPACES.
-           05 FILLER PIC X(18) VALUE "AMOUNT PERCENT".
+           05 FILLER PIC X(18) VALUE "AMOUNT     PERCENT".
            05 FILLER PIC X(31) VALUE SPACE.
 
        01 HEADING-LINE-5.
@@ -172,6 +175,7 @@
            05 FILLER PIC X(2) VALUE SPACE.
            05 FILLER PIC x(7) VALUE ALL '-'.
            05 FILLER PIC X(31) VALUE SPACE.
+       
 
        01 CUSTOMER-LINE.
            05 FILLER PIC X(2) VALUE SPACE.
@@ -197,32 +201,32 @@
            05 FILLER PIC X(31) VALUE SPACE.
 
        01 SALESREP-TOTAL-LINE.
-           05 FILLER PIC X(36) VALUE SPACE.
-           05 FILLER PIC X(16) VALUE "SALESREP TOTAL".
+           05 FILLER             PIC X(36) VALUE SPACE.
+           05 FILLER             PIC X(16) VALUE "SALESREP TOTAL  ".
            05 STL-SALES-THIS-YTD PIC $$$,$$9.99-.
-           05 FILLER PIC X(3) VALUE SPACE.
+           05 FILLER             PIC X(3) VALUE SPACE.
            05 STL-SALES-LAST-YTD PIC $$$,$$9.99-.
-           05 FILLER PIC X(3) VALUE SPACE.
-           05 STL-CHANGE-AMOUNT PIC $$$,$$9.99-.
-           05 FILLER PIC X(2) VALUE SPACE.
+           05 FILLER             PIC X(3) VALUE SPACE.
+           05 STL-CHANGE-AMOUNT  PIC $$$,$$9.99-.
+           05 FILLER             PIC X(3) VALUE SPACE.
            05 STL-CHANGE-PERCENT PIC +++9.9.
            05 STL-CHANGE-PERCENT-R REDEFINES STL-CHANGE-PERCENT
-           PIC X(6).
-           05 FILLER PIC X(31) VALUE "*".
+                                 PIC X(6).
+           05 FILLER             PIC X(42) VALUE " *".
 
        01 BRANCH-TOTAL-LINE.
-           05 FILLER PIC X(36) VALUE SPACE.
-           05 FILLER PIC X(16) VALUE " BRANCH TOTAL".
+           05 FILLER             PIC X(36) VALUE SPACE.
+           05 FILLER             PIC X(16) VALUE "  BRANCH TOTAL  ".
            05 BTL-SALES-THIS-YTD PIC $$$,$$9.99-.
-           05 FILLER PIC X(3) VALUE SPACE.
+           05 FILLER             PIC X(3) VALUE SPACE.
            05 BTL-SALES-LAST-YTD PIC $$$,$$9.99-.
-           05 FILLER PIC X(3) VALUE SPACE.
-           05 BTL-CHANGE-AMOUNT PIC $$$,$$9.99-.
-           05 FILLER PIC X(2) VALUE SPACE.
+           05 FILLER             PIC X(3) VALUE SPACE.
+           05 BTL-CHANGE-AMOUNT  PIC $$$,$$9.99-.
+           05 FILLER             PIC X(3) VALUE SPACE.
            05 BTL-CHANGE-PERCENT PIC +++9.9.
            05 BTL-CHANGE-PERCENT-R REDEFINES BTL-CHANGE-PERCENT
-           PIC X(6).
-           05 FILLER PIC X(31) VALUE "**".
+                                 PIC X(6).
+           05 FILLER             PIC X(42) VALUE " **".
 
        01 GRAND-TOTAL-LINE.
            05 FILLER PIC X(36) VALUE SPACE.
@@ -296,7 +300,7 @@
 
        210-READ-SALESREP-TABLE-RECORD.
 
-           READ INPUT-SALESREP 
+           READ INPUT-SALESREP
               AT END
                   SET SALESREP-EOF TO TRUE.
 
@@ -346,42 +350,61 @@
        320-PRINT-CUSTOMER-LINE.
 
            IF LINE-COUNT >= LINES-ON-PAGE
-               PERFORM 330-PRINT-HEADING-LINES.
+               PERFORM 330-PRINT-HEADING-LINES
+           END-IF 
 
-           IF FIRST-RECORD OR CM-BRANCH-NUMBER > OLD-BRANCH-NUMBER
-               MOVE CM-BRANCH-NUMBER TO CL-BRANCH-NUMBER
-               MOVE CM-SALESREP-NUMBER TO CL-SALESREP-NUMBER
-           ELSE
-               MOVE SPACE TO CL-BRANCH-NUMBER.
-               IF NOT CM-SALESREP-NUMBER = OLD-SALESREP-NUMBER
+           EVALUATE TRUE
+               WHEN FIRST-RECORD OR CM-BRANCH-NUMBER > OLD-BRANCH-NUMBER
+                   MOVE CM-BRANCH-NUMBER   TO CL-BRANCH-NUMBER
                    MOVE CM-SALESREP-NUMBER TO CL-SALESREP-NUMBER
-               ELSE
-                   MOVE SPACE TO CL-SALESREP-NUMBER.
-
-
+                   PERFORM 325-MOVE-SALESREP-NAME
+               WHEN CM-SALESREP-NUMBER > OLD-SALESREP-NUMBER
+               MOVE SPACES                 TO CL-BRANCH-NUMBER 
+               MOVE CM-SALESREP-NUMBER     TO CL-SALESREP-NUMBER
+               PERFORM 325-MOVE-SALESREP-NAME  
+               WHEN OTHER
+                   MOVE SPACES TO CL-BRANCH-NUMBER
+                   MOVE SPACES TO CL-SALESREP-NUMBER
+                   MOVE SPACES TO CL-SALESREP-NAME
+           END-EVALUATE.
+      *    Moves allowing data to transfer to the customer line.
            MOVE CM-CUSTOMER-NUMBER  TO CL-CUSTOMER-NUMBER.
            MOVE CM-CUSTOMER-NAME    TO CL-CUSTOMER-NAME.
            MOVE CM-SALES-THIS-YTD   TO CL-SALES-THIS-YTD.
            MOVE CM-SALES-LAST-YTD   TO CL-SALES-LAST-YTD.
+
+
            COMPUTE CHANGE-AMOUNT =
                 CM-SALES-THIS-YTD - CM-SALES-LAST-YTD.
            MOVE CHANGE-AMOUNT TO CL-CHANGE-AMOUNT.
            *> default for % change is 999.9 if last YTD is 0
            IF CM-SALES-LAST-YTD = ZERO
-                MOVE 999.99 TO CL-CHANGE-PERCENT
+                MOVE "  N/A " TO CL-CHANGE-PERCENT-R
            ELSE
                 COMPUTE CL-CHANGE-PERCENT ROUNDED =
                     CHANGE-AMOUNT * 100 / CM-SALES-LAST-YTD
                     ON SIZE ERROR
-                        MOVE 999.9 TO CL-CHANGE-PERCENT.
-           ADD CM-SALES-THIS-YTD TO BRANCH-TOTAL-THIS-YTD.
-           ADD CM-SALES-LAST-YTD TO BRANCH-TOTAL-LAST-YTD.
+                        MOVE "OVRFLW" TO CL-CHANGE-PERCENT-R.
+                        
            MOVE CUSTOMER-LINE TO PRINT-AREA.
-           WRITE PRINT-AREA.
-           ADD 1 TO LINE-COUNT.
-           ADD CM-SALES-THIS-YTD TO GRAND-TOTAL-THIS-YTD.
-           ADD CM-SALES-LAST-YTD TO GRAND-TOTAL-LAST-YTD.
            MOVE 1 TO SPACE-CONTROL.
+           ADD CM-SALES-THIS-YTD TO SALESREP-TOTAL-THIS-YTD
+           ADD CM-SALES-LAST-YTD TO SALESREP-TOTAL-LAST-YTD
+           PERFORM 350-WRITE-REPORT-LINE.
+      *****************************************************************
+      * Searches for salesrep name throughout the table and moves it
+      * to our print area. 
+      *****************************************************************
+       325-MOVE-SALESREP-NAME.
+           SET SRT-INDEX TO 1.
+           SEARCH SALESREP-GROUP
+                AT END
+                    MOVE "UNKNOWN" TO CL-SALESREP-NAME
+                WHEN SALESREP-NUMBER (SRT-INDEX) = CM-SALESREP-NUMBER
+                    MOVE SALESREP-NAME (SRT-INDEX) TO CL-SALESREP-NAME 
+           END-SEARCH.
+
+
 
       *****************************************************************
       * Prints the heading lines at the top of the report and when the
@@ -417,22 +440,23 @@
                 SALESREP-TOTAL-THIS-YTD - SALESREP-TOTAL-LAST-YTD.
            MOVE CHANGE-AMOUNT TO STL-CHANGE-AMOUNT.
            IF SALESREP-TOTAL-LAST-YTD = ZERO
-              MOVE 999.99 TO STL-CHANGE-PERCENT
+              MOVE "  N/A" TO STL-CHANGE-PERCENT-R
            ELSE
                 COMPUTE STL-CHANGE-PERCENT ROUNDED =
                         CHANGE-AMOUNT * 100 / SALESREP-TOTAL-LAST-YTD
                         ON SIZE ERROR
-                            MOVE 999.9 TO STL-CHANGE-PERCENT.
+                            MOVE "OVRFLW" TO STL-CHANGE-PERCENT-R.
            MOVE SALESREP-TOTAL-LINE TO PRINT-AREA.
            MOVE 1 TO SPACE-CONTROL.
            PERFORM 350-WRITE-REPORT-LINE.
-           MOVE SPACES TO PRINT-AREA.
-           WRITE PRINT-AREA.
+
            MOVE 2 TO SPACE-CONTROL.
-           ADD BRANCH-TOTAL-THIS-YTD TO GRAND-TOTAL-THIS-YTD.
-           ADD BRANCH-TOTAL-LAST-YTD TO GRAND-TOTAL-LAST-YTD.
-           MOVE ZERO TO BRANCH-TOTAL-THIS-YTD.
-           MOVE ZERO TO BRANCH-TOTAL-LAST-YTD.
+
+           ADD SALESREP-TOTAL-THIS-YTD TO BRANCH-TOTAL-THIS-YTD
+           ADD SALESREP-TOTAL-LAST-YTD TO BRANCH-TOTAL-LAST-YTD
+
+           INITIALIZE SALESREP-TOTAL-THIS-YTD 
+                      SALESREP-TOTAL-LAST-YTD.
        360-PRINT-BRANCH-LINE.
 
            MOVE BRANCH-TOTAL-THIS-YTD TO BTL-SALES-THIS-YTD.
@@ -441,22 +465,25 @@
                 BRANCH-TOTAL-THIS-YTD - BRANCH-TOTAL-LAST-YTD.
            MOVE CHANGE-AMOUNT TO BTL-CHANGE-AMOUNT.
            IF BRANCH-TOTAL-LAST-YTD = ZERO
-              MOVE 999.99 TO BTL-CHANGE-PERCENT
+              MOVE "  N/A" TO BTL-CHANGE-PERCENT-R
            ELSE
                 COMPUTE BTL-CHANGE-PERCENT ROUNDED =
                         CHANGE-AMOUNT * 100 / BRANCH-TOTAL-LAST-YTD
                         ON SIZE ERROR
-                            MOVE 999.9 TO BTL-CHANGE-PERCENT.
+                            MOVE "OVRFLW" TO BTL-CHANGE-PERCENT-R.
            MOVE BRANCH-TOTAL-LINE TO PRINT-AREA.
            MOVE 1 TO SPACE-CONTROL.
            PERFORM 350-WRITE-REPORT-LINE.
-           MOVE HEADING-LINE-3 TO PRINT-AREA
+
+           MOVE SPACES TO PRINT-AREA
            PERFORM 350-WRITE-REPORT-LINE
+
            MOVE 2 TO SPACE-CONTROL.
            ADD BRANCH-TOTAL-THIS-YTD TO GRAND-TOTAL-THIS-YTD.
            ADD BRANCH-TOTAL-LAST-YTD TO GRAND-TOTAL-LAST-YTD.
-           MOVE ZERO TO BRANCH-TOTAL-THIS-YTD.
-           MOVE ZERO TO BRANCH-TOTAL-LAST-YTD.
+
+           INITIALIZE   BRANCH-TOTAL-THIS-YTD 
+                        BRANCH-TOTAL-LAST-YTD.
 
       *****************************************************************
       * Get grand totals, compute change amount and % change
