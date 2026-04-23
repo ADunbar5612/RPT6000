@@ -5,7 +5,7 @@ Continues building upon the sales report, this time eliminating hard-coded value
 A collaborative COBOL project by Aidan Dunbar
 
 Overview
-RPT6000 is a COBOL reporting application that builds on earlier iterations of the sales report by replacing hard-coded data with dynamic table lookups and externalized record definitions. The program reads customer sales data, cross-references a secondary SALESREP file to resolve representative names at runtime, and produces a polished, multi-level summary report complete with financial metrics.
+RPT6000 is an enterprise-grade COBOL reporting application that builds on earlier iterations of the sales report by replacing hard-coded data with dynamic table lookups and externalized record definitions. The program reads customer sales data, cross-references a secondary SALESREP file to resolve representative names at runtime, and produces a polished, multi-level summary report complete with financial metrics.
 
 What It Does
 FeatureDescriptionDynamic Table LookupsReads the SALESREP file into an internal table at startup; resolves rep names by ID during report generation — no hard-coded name lists.Multi-Level ReportingOutput sorted by branch, then by sales representative, with nested subtotals at each level for granular performance analysis.Financial MetricsComputes Year-To-Date (YTD) change amounts and percentages to track account growth or decline across periods.Overflow / N/A HandlingUses REDEFINES to display OVRFLW or N/A whenever a calculation overflows or a division-by-zero condition is detected.Professional FormattingManages report headers, branch totals, rep totals, and page breaks with standardized COBOL output conventions.
@@ -25,7 +25,6 @@ ON SIZE ERROR clauses guard all arithmetic statements; when a result would overf
 
 Evaluate TRUE Structures
 Nested IF chains are replaced with EVALUATE TRUE blocks, making multi-condition branching easier to read, maintain, and extend — a widely adopted pattern in modern COBOL shops.
-
 Program Output
 Final Report
 The main report lists customers grouped by branch and sales representative, showing current-period sales, prior-year sales, YTD change amount, and YTD change percentage. Branch and rep subtotals print automatically at each control break.
