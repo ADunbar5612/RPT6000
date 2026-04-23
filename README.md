@@ -46,23 +46,3 @@ RPT6000/
 
 └── README.md
 
-How to Compile & Run
-
-These instructions assume a GnuCOBOL environment. Adjust JCL or compile options as needed for an IBM mainframe target.
-
-bash# Compile
-cobc -x -free RPT6000.cbl -o RPT6000
-
-# Run (set environment variables to point at your data files)
-export SALESREP=./SALESREP.dat
-export CUSTMAST=./CUSTMAST.dat
-./RPT6000
-For mainframe deployment, compile with your site's standard JCL proc and allocate the SALESREP and CUSTMAST DD statements to the appropriate datasets.
-
-Authors
-NameGitHubAidan Dunbar 
-Related Repositories
-This project is part of a progressive COBOL learning series. Each iteration adds new concepts on top of the last:
-
-RPT1000–5000 — Earlier iterations covering basic I/O, control breaks, and accumulator patterns
-RPT6000 (this repo) — Table lookups, COPY members, COMP-3, and error handling
